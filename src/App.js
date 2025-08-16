@@ -5,9 +5,30 @@ function Pokemon() {
   const [pokemon, setPokemon] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const typeColors = {
+    normal: "#A8A77A",
+    fire: "#EE8130",
+    water: "#6390F0",
+    electric: "#F7D02C",
+    grass: "#7AC74C",
+    ice: "#96D9D6",
+    fighting: "#C22E28",
+    poison: "#A33EA1",
+    ground: "#E2BF65",
+    flying: "#A98FF3",
+    psychic: "#F95587",
+    bug: "#A6B91A",
+    rock: "#B6A136",
+    ghost: "#735797",
+    dragon: "#6F35FC",
+    dark: "#705746",
+    steel: "#B7B7CE",
+    fairy: "#D685AD",
+  }
+
   useEffect(() => {
     setLoading(true);
-    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId || 1}`)
+    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
       .then(res => {
         if (!res.ok) throw new Error("Pokémon not found");
         return res.json();
@@ -21,7 +42,7 @@ function Pokemon() {
         setLoading(false);
       });
   }, [pokemonId]);
-
+  
   return (
     <>
       {loading && <p>Loading...</p>}
@@ -31,9 +52,10 @@ function Pokemon() {
           <div className="pokemon-info">
           <h1>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h1>
           <ul className="pokemon-types">
-            {pokemon.types.map(({ type }) => (
-              <li key={type.name}>{type.name.charAt(0).toUpperCase() + type.name.slice(1)}</li>
-            ))}
+            {pokemon.types.map(({ type }) => {
+              const color = typeColors[type.name] || "#777";
+              return <li key={type.name} style={{ backgroundColor: color }}>{type.name.charAt(0).toUpperCase() + type.name.slice(1)}</li>;
+            })}
           </ul>
           <div className="pokemon-sprite-container">
             <img src={pokemon.sprites.front_default} alt={pokemon.name} />
@@ -67,7 +89,7 @@ function Pokemon() {
           <div className="pokemon-moves">
             <h3>Moveslist:</h3>
             <ul>
-              {pokemon.moves.map(({ move }) => (
+              {pokemon.movese.map(({ move }) => (
                 <li key={move.name}>{move.name.charAt(0).toUpperCase() + move.name.slice(1)}</li>
               ))}
             </ul>
