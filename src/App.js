@@ -89,7 +89,7 @@ function Pokemon() {
           <div className="pokemon-moves">
             <h3>Moveslist:</h3>
             <ul>
-              {pokemon.movese.map(({ move }) => (
+              {pokemon.moves.map(({ move }) => (
                 <li key={move.name}>{move.name.charAt(0).toUpperCase() + move.name.slice(1)}</li>
               ))}
             </ul>
