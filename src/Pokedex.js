@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import  './App.css'
-function Pokemon() {
+import  './Pokedex.css'
+function Pokedex({onBackToGame}) {
   const [pokemonId, setPokemonId] = useState(1); // Start with Pokémon #1
   const [pokemon, setPokemon] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -45,6 +45,12 @@ function Pokemon() {
   
   return (
     <>
+      <button
+        onClick={onBackToGame}
+        style={{ marginBottom: '20px', padding: '10px', cursor: 'pointer' }}
+      >
+        ◀ Voltar para a Captura
+      </button>
       {loading && <p>Loading...</p>}
       
       {!loading && pokemon && (
@@ -103,4 +109,4 @@ function Pokemon() {
 
 }
 
-export default Pokemon;
+export default Pokedex;
