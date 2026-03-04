@@ -4,7 +4,7 @@
 .gba-container {
     font-family: 'Press Start 2P', cursive;
     text-transform: uppercase;
-    /* width: 1920px; */
+    width: 1000px;
     height: auto;
     margin: 0 auto;
     background-color: #d0eac0;
@@ -16,7 +16,7 @@
 
 .battle-screen {
     position: relative;
-    height: 600px;
+    height: 500px;
     background: linear-gradient(to bottom, #e0f8d0 0%, #d0eac0 100%);
     padding: 20px;
 }
@@ -68,19 +68,58 @@
 
 .enemy-sprite {
     position: absolute;
-    top: 80px;
-    right: 40px;
+    top: -20px;
+    right: 50px;
     width: 480px;
     image-rendering: pixelated;
 
 }
 
+.enemy-sprite.is-caught img {
+    width: 80px;
+    height: 80px;
+    margin-top: 50px;
+    animation: bounce-and-catch 1s ease-out forwards;
+    position: absolute;
+    top: 230px;
+    right: 200px;
+}
+
+@keyframes bounce-and-catch {
+    0% {
+        transform: translateY(-50px) scale(1.5);
+    }
+
+    50% {
+        transform: translateY(0) scale(1);
+    }
+
+    75% {
+        transform: translateY(-15px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
 .grass-base {
     position: absolute;
-    top: 350px;
+    top: 260px;
     right: 60px;
     width: 440px;
     height: 180px;
+    background-color: #a0c888;
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.grass-base.is-caught {
+    position: absolute;
+    top: 300px;
+    right: 237px;
+    width: 100px;
+    height: 50px;
     background-color: #a0c888;
     border-radius: 50%;
     z-index: 0;
@@ -136,10 +175,11 @@
     font-family: 'Press Start 2P', cursive;
     font-size: 22px;
     color: #303030;
-    text-align: left;
+    text-align: center;   
     cursor: pointer;
     padding: 0;
     position: relative;
+    align-items: baseline;
 }
 
 

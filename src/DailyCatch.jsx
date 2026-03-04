@@ -56,11 +56,15 @@ function DailyCatch({ onOpenPokedex }) {
                     </div>
                 </div>
 
-                <div className="grass-base"></div>
-                <div className="enemy-sprite">
+                <div className={`grass-base ${status === 'caught' ? 'is-caught' : ''}`} ></div>
+                <div className={`enemy-sprite ${status === 'caught' ? 'is-caught' : ''}`}>
                     <img
-                        src={pokemon.sprites.front_default}
-                        alt={pokemon.name}
+                        src={
+                            status === 'caught'
+                                ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
+                                : pokemon.sprites.front_default
+                        }
+                        alt={status === 'caught' ? "Pokébola" : pokemon.name}
                         style={{ filter: status === 'fled' ? 'grayscale(100%)' : 'none' }}
                     />
                 </div>
@@ -77,7 +81,7 @@ function DailyCatch({ onOpenPokedex }) {
                         onClick={throwPokeball}
                         disabled={status !== "playing"}
                     >
-                        BALL ({tentativas})
+                        BALL({tentativas})
                     </button>
                     <button className="menu-btn" disabled>ITEM</button>
                     <button className="menu-btn" onClick={onOpenPokedex}>POKÉDEX</button>
