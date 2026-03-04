@@ -4,6 +4,7 @@ import DailyCatch from "./DailyCatch";
 // import './App.css';
 
 function App() {
+    const [currentView, setCurrentView] = useState("game");
 
     return (
         <div className="app-container">
