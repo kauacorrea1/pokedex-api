@@ -49,11 +49,11 @@ function Pokedex({onBackToGame}) {
         onClick={onBackToGame}
         style={{ marginBottom: '20px', padding: '10px', cursor: 'pointer' }}
       >
-        ◀ Voltar para a Captura
+        ◀ Voltar para a Captura (Pokedex temporariamente desativada)
       </button>
       {loading && <p>Loading...</p>}
       
-      {!loading && pokemon && (
+      {/* {!loading && pokemon && (
         <div className="pokemon-container">
           <div className="pokemon-info">
           <h1>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h1>
@@ -103,7 +103,7 @@ function Pokedex({onBackToGame}) {
       </div>
       )}
       
-      {!loading && !pokemon && <p>Pokémon not found</p>}
+      {!loading && !pokemon && <p>Pokémon not found</p>} */}
   </>
 );
 
