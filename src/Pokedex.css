@@ -1,137 +1,203 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-.pokemon-container {
-  width: 550px;
-  height: 780px;  
-  margin: 20px auto;
-  padding: 20px;
-  background:#d62828;
-  border-radius: 15px;
-  border: 4px solid #000;
-  color: #fff;
-  font-family: 'Press Start 2P', cursive;
-  box-shadow: 0px 0px 20px rgba(0,0,0,0.6);
-  display: flex;
-  flex-direction: row;
-}
+  .pokemon-container {
+    width: 600px;
+    height: 780px;  
+    /* margin: 20px auto; */
+    padding: 20px;
+    background:#d62828;
+    border-radius: 0px 15px 15px 0px;
+    /* border: 4px solid #000; */
+    color: #fff;
+    font-family: 'Press Start 2P', cursive;
+    display: flex;
+    flex-direction: row;
+  }
 
 
-.pokemon-container h1 {
-  text-align: center;
-  font-size: 28px;
-  color: #FFDC52;
-  text-shadow: 2px 2px #000;
-}
+  .pokemon-container h1 {
+    text-align: center;
+    font-size: 28px;
+    color: #FFDC52;
+    text-shadow: 2px 2px #000;
+  }
 
-.pokemon-sprite-container {
-  display: flex;
-  justify-content: center;
-  margin: 15px 0;
-}
+  .pokemon-sprite-container {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+  }
 
-.pokemon-sprite-container img {
-  image-rendering: pixelated;
-  border: 3px solid #000;
-  background-color: #fff;
-  padding: 5px;
-  width: 150px;
-  height: auto;
-  border-radius: 10px;
-}
+  .pokemon-sprite-container img {
+    image-rendering: pixelated;
+    border: 3px solid #000;
+    background-color: #fff;
+    padding: 5px;
+    width: 150px;
+    height: auto;
+    border-radius: 10px;
+  }
 
-input[type="number"] {
-  display: block;
-  margin: 10px auto;
-  padding: 8px;
-  font-size: 14px;
-  border: 2px solid #000;
-  border-radius: 8px;
-  background-color: #fff;
-  color: #000;
-  text-align: center;
-  font-family: inherit;
-}
+  input[type="number"] {
+    display: block;
+    margin: 10px auto;
+    padding: 8px;
+    font-size: 14px;
+    border: 2px solid #000;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #000;
+    text-align: center;
+    font-family: inherit;
+  }
 
-input[type="number"]::placeholder {
-  color: #555;
-}
+  input[type="number"]::placeholder {
+    color: #555;
+  }
 
-.pokemon-info {
-  background-color: rgba(0,0,0,0.3);
-  padding: 15px;
-  border-radius: 10px;
-  width: 80%;
-  
-}
+  .pokemon-info {
+    background-color: rgba(0,0,0,0.3);
+    padding: 15px;
+    border-radius: 10px;
+    width: 80%;
+    
+  }
 
-.pokemon-info h3 {
-  margin-top: 15px;
-  color: #FFDC52;
-  font-size: 14px;
-  text-shadow: 1px 1px #000;
-}
+  .pokemon-info h3 {
+    margin-top: 15px;
+    color: #FFDC52;
+    font-size: 14px;
+    text-shadow: 1px 1px #000;
+  }
 
-.pokemon-info ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+  .pokemon-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-.pokemon-info li {
-  background: #ffffff1a;
-  margin: 3px 0px;
-  padding: 5px 8px;
-  border-radius: 5px;
-  font-size: 12px;
-}
+  .pokemon-info li {
+    background: #ffffff1a;
+    margin: 3px 0px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+  }
 
-.pokemon-metrics {
-  display: flex;
-  justify-content: space-between;
-}
+  .pokemon-metrics {
+    display: flex;
+    justify-content: space-between;
+  }
 
-.pokemon-moves h3 {
-  text-align: center;
-  font-size: 28px;
-  color: #FFDC52;
-  text-shadow: 2px 2px #000;
-}
+  .pokemon-moves h3 {
+    text-align: center;
+    font-size: 28px;
+    color: #FFDC52;
+    text-shadow: 2px 2px #000;
+  }
 
-.pokemon-moves {
-  overflow-y: auto;
-  padding: 5px;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-}
+  .pokemon-moves {
+    overflow-y: auto;
+    padding: 5px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
 
-.pokemon-moves li {
-  background: #ffffff1a;
-  margin: 3px 0px;
-  padding: 5px 8px;
-  border-radius: 5px;
-  font-size: 12px;
-  list-style: none;
-  width: 220px;
-}
+  .pokemon-moves li {
+    background: #ffffff1a;
+    margin: 3px 0px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    list-style: none;
+    width: 220px;
+  }
 
-.pokemon-moves ul {
-  padding: 5px;
-  justify-content: center;
-}
+  .pokemon-moves ul {
+    padding: 5px;
+    justify-content: center;
+  }
 
-.pokemon-types {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+  .pokemon-types {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 
-.pokemon-types li {
-  margin: 5px;
-}
+  .pokemon-types li {
+    margin: 5px;
+  }
 
-.pokemon-moves li {
-  text-align: center;
-}
+  .pokemon-moves li {
+    text-align: center;
+  }
+
+  .captured-gallery {
+    display: flex;
+    /* margin: auto; */
+    width: 600px;
+    height: 780px;  
+    background-color: #d62828;
+    padding: 20px;
+    gap: 10px;
+    justify-content: center;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    border-radius: 15px 0px 0px 15px;
+    
+  }
+
+  .container-master {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    border: 4px solid black;
+    border-radius: 20px;
+    width: 1250px;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.6);
+
+  }
+
+  .pokedex-item {
+    padding: 10px;
+    background-color: #f14040;
+    width: 105px;
+    height: 105px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    font-family: 'Press Start 2P';
+    color: #ffdc52;
+    text-shadow: 2px 2px #000;
+    border-radius: 8px;
+  }
+
+  .pokedex-item:hover {
+    border: 1px solid black;
+    
+  }
+  .pokedex-item img {
+    width: 100px;
+    height: 100px;
+  }
+
+
+  .go-back-button {
+    color: #FFDC52;
+    text-shadow: 2px 3px #000;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 60px;
+  }
+
+  .go-back-button:hover {
+    transition: .5s;
+    transform:scale(1.05);
+  }
