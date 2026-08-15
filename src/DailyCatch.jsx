@@ -1,71 +1,209 @@
 import { useState, useEffect } from "react";
 import './DailyCatch.css';
 
-function refreshPokemon() {
-    window.location.reload();
+const POKEMON_RARO_IDS = [
+    144, 145, 146, 150, 151,
+    243, 244, 245, 249, 250, 251,
+    ...Array.from({ length: 10 }, (_, i) => 377 + i),
+    ...Array.from({ length: 14 }, (_, i) => 480 + i),
+    ...Array.from({ length: 12 }, (_, i) => 638 + i),
+    ...Array.from({ length: 6 }, (_, i) => 716 + i),
+    772, 773,
+    ...Array.from({ length: 8 }, (_, i) => 785 + i),
+    800, 801, 802, 807, 808, 809,
+    ...Array.from({ length: 11 }, (_, i) => 888 + i)
+];
+
+const RARE_POKEMON_SET = new Set(POKEMON_RARO_IDS);
+
+const POKEMON_COMUN_IDS = Array.from(
+    { length: 898 },
+    (_, i) => i + 1
+).filter((id) => !RARE_POKEMON_SET.has(id));
+
+function choosePokemonId(previousId) {
+    let id;
+
+    do {
+        const rareAppeared = Math.random() < 0.02;
+
+        const pokemonPool = rareAppeared
+            ? POKEMON_RARO_IDS
+            : POKEMON_COMUN_IDS;
+
+        id = pokemonPool[
+            Math.floor(Math.random() * pokemonPool.length)
+        ];
+    } while (id === previousId);
+
+    return id;
+}
+
+function createEncounter(previousId = null) {
+    const id = choosePokemonId(previousId);
+
+    return {
+        id,
+        level: Math.floor(Math.random() * 100) + 1,
+        tentativas: 5,
+        status: "playing",
+        message: "Um Pokémon selvagem apareceu!",
+        isRare: RARE_POKEMON_SET.has(id)
+    };
+}
+
+function loadSavedEncounter() {
+    try {
+        const savedEncounter = JSON.parse(
+            localStorage.getItem("encontroAtual")
+        );
+
+        if (savedEncounter?.id) {
+            return {
+                ...savedEncounter,
+                isRare: RARE_POKEMON_SET.has(savedEncounter.id)
+            };
+        }
+    } catch {
+        localStorage.removeItem("encontroAtual");
+    }
+
+    return createEncounter();
 }
 
 function DailyCatch({ onOpenPokedex }) {
+    const [encounter, setEncounter] = useState(loadSavedEncounter);
     const [pokemon, setPokemon] = useState(null);
-    const [tentativas, setTentativas] = useState(5);
-    const [level, setLevel] = useState(1);
-    const [status, setStatus] = useState("playing");
-    const [message, setMessage] = useState("Um Pokémon selvagem apareceu!");
-    // const [currentView, setCurrentView] = useState("game");
+    const [error, setError] = useState(false);
+
+    const {
+        id,
+        level,
+        tentativas,
+        status,
+        message
+    } = encounter;
 
     useEffect(() => {
-        const randomId = Math.floor(Math.random() * 898) + 1;        
-        fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`)
-            .then(res => res.json())
-            .then(data => {setPokemon(data)
-            const randomLevel = Math.floor(Math.random() * 100) + 1;
-            setLevel(randomLevel);
-    })
-            .catch(err => console.error("Erro ao buscar Pokémon", err));
-            
-    }, []);
+        let requestActive = true;
 
-    
+        setPokemon(null);
+        setError(false);
 
-    const throwPokeball = () => {
-        if (tentativas <= 0 || status === "caught") return;
+        fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Pokémon não encontrado");
+                }
+
+                return res.json();
+            })
+            .then((data) => {
+                if (requestActive) {
+                    setPokemon(data);
+                }
+            })
+            .catch((err) => {
+                console.error("Erro ao buscar Pokémon", err);
+
+                if (requestActive) {
+                    setError(true);
+                }
+            });
+
+        return () => {
+            requestActive = false;
+        };
+    }, [id]);
+
+    useEffect(() => {
+        localStorage.setItem(
+            "encontroAtual",
+            JSON.stringify(encounter)
+        );
+    }, [encounter]);
+
+    function nextPokemon() {
+        setPokemon(null);
+        setEncounter(createEncounter(id));
+    }
+
+    function throwPokeball() {
+        if (!pokemon || tentativas <= 0 || status !== "playing") {
+            return;
+        }
 
         const newTentativas = tentativas - 1;
-        setTentativas(newTentativas);
-        const catchChance = Math.random();
-        const isCaught = catchChance < 0.25;
+        const catchChance = encounter.isRare ? 0.08 : 0.25;
+        const isCaught = Math.random() < catchChance;
 
         if (isCaught) {
-    setStatus("caught");
-    setMessage(`Sucesso! Você capturou o ${pokemon.name.toUpperCase()}!`);
-    const novoPokemonCapturado = {
-        id: pokemon.id,
-        name: pokemon.name,
-        level: level,
-        sprite: pokemon.sprites.front_default,
-        dataCaptura: new Date().toLocaleDateString()
-    };
+            const newEncounter = {
+                ...encounter,
+                tentativas: newTentativas,
+                status: "caught",
+                message: `Sucesso! Você capturou o ${pokemon.name.toUpperCase()}!`
+            };
 
-    const pokedexSalva = JSON.parse(localStorage.getItem("minhaPokedex")) || [];
-    
-    pokedexSalva.push(novoPokemonCapturado);
- 
-    localStorage.setItem("minhaPokedex", JSON.stringify(pokedexSalva));
-} else if(newTentativas === 0) {
-    setStatus('fled');
-    setMessage(`Que pena! O ${pokemon.name.toUpperCase()} fugiu!`)
+            setEncounter(newEncounter);
 
-}
-    };
+            const newCapturedPokemon = {
+                id: pokemon.id,
+                name: pokemon.name,
+                level,
+                sprite: pokemon.sprites.front_default,
+                dataCaptura: new Date().toLocaleDateString(),
+                isRare: encounter.isRare
+            };
 
-    if (!pokemon) return <p>Procurando um Pokémon selvagem...</p>;
+            const savedPokedex =
+                JSON.parse(localStorage.getItem("minhaPokedex")) || [];
+
+            savedPokedex.push(newCapturedPokemon);
+
+            localStorage.setItem(
+                "minhaPokedex",
+                JSON.stringify(savedPokedex)
+            );
+
+            return;
+        }
+
+        if (newTentativas === 0) {
+            setEncounter({
+                ...encounter,
+                tentativas: 0,
+                status: "fled",
+                message: `Que pena! O ${pokemon.name.toUpperCase()} fugiu!`
+            });
+
+            return;
+        }
+
+        setEncounter({
+            ...encounter,
+            tentativas: newTentativas,
+            message: `A Pokébola falhou! Restam ${newTentativas} tentativas.`
+        });
+    }
+
+    if (error) {
+        return <p>Não foi possível carregar o Pokémon.</p>;
+    }
+
+    if (!pokemon) {
+        return <p style={{color:'#fff'}}>Procurando um Pokémon selvagem...</p>;
+    }
 
     return (
         <div className="gba-container">
             <div className="battle-screen">
                 <div className="enemy-status">
                     <div className="status-header">
-                        <span>{pokemon.name}</span>
+                        <span>
+                            {encounter.isRare ? "★ " : ""}
+                            {pokemon.name}
+                        </span>
                         <span>Lv{level}</span>
                     </div>
                     <div className="hp-bar-container">
@@ -103,7 +241,7 @@ function DailyCatch({ onOpenPokedex }) {
                     </button>
                     <button className="menu-btn" disabled>ITEM</button>
                     <button className="menu-btn" onClick={onOpenPokedex}>POKÉDEX</button>
-                    <button className="menu-btn" onClick={refreshPokemon}>PRÓXIMO</button>
+                    <button className="menu-btn" onClick={nextPokemon}>PRÓXIMO</button>
                 </div>
             </div>
 
