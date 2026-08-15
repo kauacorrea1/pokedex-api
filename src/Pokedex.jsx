@@ -61,7 +61,7 @@ function Pokedex({ onBackToGame }) {
       </button>
 
       {capturedList.length === 0 ? (
-        <h2>Você ainda não capturou nenhum Pokémon. Volte para a grama alta!</h2>
+        <h2 style={{ color: "#FFDC52", textShadow:'1px 1px #000' }}>Você ainda não capturou nenhum Pokémon. Volte para a grama alta!</h2>
       ) : (
         <>
         <div className="container-master">
